@@ -10,7 +10,10 @@ export const useNotify = () => {
     (text) => {
       dispatch({
         type: ADD,
-        payload: text,
+        payload: {
+          id: Date.now(),
+          text,
+        },
       });
     },
     [dispatch],
