@@ -1,20 +1,32 @@
-import React, { memo, useReducer } from 'react';
+import React, { memo, useContext, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 
-import { reducer, initialState } from '../../reducer';
+import Notification from '../Notification';
+import { REMOVE } from '../../constants';
+import { ReducerContext } from '../../context';
 
 import './index.css';
 
 const Container = () => {
-  const [state] = useReducer(reducer, initialState);
+  const [state, dispatch] = useContext(ReducerContext);
+
+  const onRemove = useCallback(
+    (id) => dispatch({
+      type: REMOVE,
+      payload: id,
+    }),
+    [dispatch],
+  );
 
   return (createPortal(
     <div className="notification-container">
       {
         state.notifications.map((item) => (
-          <div>
-            {item}
-          </div>
+          <Notification
+            key={item.id}
+            text={item.text}
+            onRemove={onRemove}
+          />
         ))
       }
     </div>,

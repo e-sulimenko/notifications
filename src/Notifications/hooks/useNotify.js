@@ -1,7 +1,7 @@
 import { useCallback, useContext } from 'react';
 
 import { ADD } from '../constants';
-import { ReducerContext } from '../components/Provider';
+import { ReducerContext } from '../context';
 
 export const useNotify = () => {
   const [, dispatch] = useContext(ReducerContext);
