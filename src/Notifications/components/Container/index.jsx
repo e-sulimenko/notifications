@@ -25,6 +25,7 @@ const Container = () => {
           <Notification
             key={item.id}
             text={item.text}
+            id={item.id}
             onRemove={onRemove}
           />
         ))

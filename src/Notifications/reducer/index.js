@@ -7,7 +7,7 @@ const HANDLERS = {
     notifications: [...state.notifications, payload],
   }),
   [REMOVE]: (state, payload) => ({
-    notifications: state.notifications.filter(({ id }) => id === payload),
+    notifications: state.notifications.filter(({ id }) => id !== payload),
   }),
 };
 
