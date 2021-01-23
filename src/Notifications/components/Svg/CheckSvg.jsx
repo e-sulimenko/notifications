@@ -15,7 +15,7 @@ const CheckSvg = ({ id }) => (
 );
 
 CheckSvg.propTypes = {
-  id: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
 };
 
 export default memo(CheckSvg);

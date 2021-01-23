@@ -1,20 +1,27 @@
+.notification-item-container {
+  max-height: 1000px;
+  overflow: hidden;
+  opacity: 0;
+  will-change: transform, opacity, height;
+}
+
 .notification-item {
   margin: 10px 0 0 10px;
-  padding: 0 16px;
+  padding: 16px;
 
   min-width: 150px;
-  min-height: 48px;
 
   display: flex;
   align-items: center;
 
-  border-radius: 5px;
 
   font-size: 14px;
   color: hsla(0, 0%, 100%, 1);
 
-  opacity: 0;
-  will-change: transform, opacity;
+  overflow: hidden;
+  position: relative;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 .notification-item--default {
@@ -35,4 +42,12 @@
 
 .notification-item__icon {
   margin-right: 8px;
+}
+
+.notification-item__progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  background: hsla(196, 100%, 47%, 1);
 }

@@ -7,7 +7,7 @@ import './index.css';
 
 ReactDOM.render(
   // eslint-disable-next-line react/jsx-filename-extension
-  <NotificationProvider>
+  <NotificationProvider limit={3}>
     <App />
   </NotificationProvider>,
   document.getElementById('root'),

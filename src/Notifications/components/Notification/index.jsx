@@ -12,7 +12,7 @@ import CrossSvg from '../Svg/CrossSvg';
 import CheckSvg from '../Svg/CheckSvg';
 import InfoSvg from '../Svg/InfoSvg';
 
-import { animateLeftIn } from '../../animations';
+import { animateLeftIn, animateLeftOut } from '../../animations';
 
 import './index.css';
 
@@ -22,24 +22,62 @@ const Notification = (props) => {
     onRemove,
     id,
     type,
+    duration,
+    showProgress,
   } = props;
 
-  const [timerId, setTimerId] = useState(null);
+  const [intervalId, setIntervalId] = useState(null);
+  const [timeLeft, setTimeLeft] = useState(duration);
 
   const notifyRef = useRef(null);
 
   useEffect(
-    () => {
-      if (notifyRef && notifyRef.current) {
-        animateLeftIn(notifyRef.current);
-      }
+    () => () => {
+      if (intervalId != null) clearInterval(intervalId);
     },
-    [notifyRef],
+    [intervalId],
   );
 
-  const onClick = useCallback(
+  const onRemoveNotify = useCallback(
     () => onRemove(id),
     [id, onRemove],
+  );
+
+  const startTimer = useCallback(
+    () => {
+      const intId = setInterval(
+        () => setTimeLeft((val) => {
+          const next = val - 30;
+          if (next <= 0) {
+            const animation = animateLeftOut(notifyRef.current);
+            animation.onfinish = onRemoveNotify;
+            clearInterval(intId);
+          }
+          return next;
+        }),
+        30,
+      );
+      setIntervalId(intId);
+    },
+    [
+      notifyRef,
+      onRemoveNotify,
+    ],
+  );
+
+  const stopTimer = useCallback(
+    () => clearInterval(intervalId),
+    [intervalId],
+  );
+
+  useEffect(
+    () => {
+      if (notifyRef && notifyRef.current) {
+        const animation = animateLeftIn(notifyRef.current);
+        animation.onfinish = startTimer;
+      }
+    },
+    [notifyRef, startTimer],
   );
 
   const icon = useMemo(
@@ -51,17 +89,43 @@ const Notification = (props) => {
     [type, id],
   );
 
+  const onClickNotify = useCallback(
+    () => {
+      const animation = animateLeftOut(notifyRef.current);
+      animation.onfinish = onRemoveNotify;
+      clearInterval(intervalId);
+    },
+    [
+      notifyRef,
+      intervalId,
+      onRemoveNotify,
+    ],
+  );
+
   return (
-    <div
-      aria-hidden="true"
-      className={`notification-item notification-item--${type}`}
-      ref={notifyRef}
-      onClick={onClick}
-    >
-      <div className="notification-item__icon">
-        {icon}
+    <div className="notification-item-container" ref={notifyRef}>
+      <div
+        aria-hidden="true"
+        className={`notification-item notification-item--${type}`}
+        onMouseEnter={stopTimer}
+        onMouseLeave={startTimer}
+        onClick={onClickNotify}
+      >
+        <div className="notification-item__icon">
+          {icon}
+        </div>
+        {text}
+        {
+          showProgress && (
+            <div
+              className="notification-item__progress"
+              style={{
+                width: `${(timeLeft / duration) * 100}%`,
+              }}
+            />
+          )
+        }
       </div>
-      {text}
     </div>
   );
 };
@@ -71,6 +135,8 @@ Notification.propTypes = {
   onRemove: PropTypes.func.isRequired,
   id: PropTypes.number.isRequired,
   type: PropTypes.string.isRequired,
+  duration: PropTypes.number.isRequired,
+  showProgress: PropTypes.bool.isRequired,
 };
 
 export default memo(Notification);

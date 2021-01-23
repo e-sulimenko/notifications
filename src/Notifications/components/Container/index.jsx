@@ -1,5 +1,6 @@
 import React, { memo, useContext, useCallback } from 'react';
 import { createPortal } from 'react-dom';
+import PropTypes from 'prop-types';
 
 import Notification from '../Notification';
 import { REMOVE } from '../../constants';
@@ -7,7 +8,12 @@ import { ReducerContext } from '../../context';
 
 import './index.css';
 
-const Container = () => {
+const Container = (props) => {
+  const {
+    showProgress,
+    duration,
+  } = props;
+
   const [state, dispatch] = useContext(ReducerContext);
 
   const onRemove = useCallback(
@@ -27,6 +33,8 @@ const Container = () => {
             text={item.text}
             id={item.id}
             type={item.type}
+            duration={duration}
+            showProgress={showProgress}
             onRemove={onRemove}
           />
         ))
@@ -34,6 +42,11 @@ const Container = () => {
     </div>,
     document.body,
   ));
+};
+
+Container.propTypes = {
+  showProgress: PropTypes.bool,
+  duration: PropTypes.number,
 };
 
 export default memo(Container);
