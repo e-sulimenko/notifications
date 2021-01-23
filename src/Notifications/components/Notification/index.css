@@ -5,8 +5,11 @@
   will-change: transform, opacity, height;
 }
 
-.notification-item {
+.notification-item-wrapper {
   margin: 10px 0 0 10px;
+}
+
+.notification-item {
   padding: 16px;
 
   min-width: 150px;

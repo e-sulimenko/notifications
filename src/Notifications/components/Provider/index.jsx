@@ -15,6 +15,7 @@ export const NotificationProvider = (props) => {
     showProgress,
     duration,
     limit,
+    CustomComponent,
   } = props;
   const [state, dispatch] = useReducer(reducer, { ...initialState, limit });
 
@@ -29,6 +30,7 @@ export const NotificationProvider = (props) => {
       <Container
         showProgress={showProgress}
         duration={duration}
+        CustomComponent={CustomComponent}
       />
     </ReducerContext.Provider>
   );
@@ -38,6 +40,7 @@ NotificationProvider.defaultProps = {
   showProgress: true,
   duration: 5000,
   limit: 0,
+  CustomComponent: null,
 };
 
 NotificationProvider.propTypes = {
@@ -45,6 +48,7 @@ NotificationProvider.propTypes = {
   showProgress: PropTypes.bool,
   duration: PropTypes.number,
   limit: PropTypes.number,
+  CustomComponent: PropTypes.instanceOf(Object),
 };
 
 export default memo(NotificationProvider);

@@ -12,6 +12,7 @@ const Container = (props) => {
   const {
     showProgress,
     duration,
+    CustomComponent,
   } = props;
 
   const [state, dispatch] = useContext(ReducerContext);
@@ -35,6 +36,7 @@ const Container = (props) => {
             type={item.type}
             duration={duration}
             showProgress={showProgress}
+            CustomComponent={CustomComponent}
             onRemove={onRemove}
           />
         ))
@@ -47,6 +49,7 @@ const Container = (props) => {
 Container.propTypes = {
   showProgress: PropTypes.bool,
   duration: PropTypes.number,
+  CustomComponent: PropTypes.instanceOf(Object),
 };
 
 export default memo(Container);

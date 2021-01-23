@@ -24,6 +24,7 @@ const Notification = (props) => {
     type,
     duration,
     showProgress,
+    CustomComponent,
   } = props;
 
   const [intervalId, setIntervalId] = useState(null);
@@ -102,32 +103,58 @@ const Notification = (props) => {
     ],
   );
 
+  const progress = useMemo(
+    () => (timeLeft / duration) * 100,
+    [timeLeft, duration],
+  );
+
   return (
     <div className="notification-item-container" ref={notifyRef}>
       <div
-        aria-hidden="true"
-        className={`notification-item notification-item--${type}`}
+        className="notification-item-wrapper"
         onMouseEnter={stopTimer}
         onMouseLeave={startTimer}
-        onClick={onClickNotify}
       >
-        <div className="notification-item__icon">
-          {icon}
-        </div>
-        {text}
         {
-          showProgress && (
-            <div
-              className="notification-item__progress"
-              style={{
-                width: `${(timeLeft / duration) * 100}%`,
-              }}
+          CustomComponent != null ? (
+            <CustomComponent
+              type={type}
+              progress={progress}
+              onRemove={onClickNotify}
+              onMouseEnter={stopTimer}
+              onMouseLeave={startTimer}
             />
           )
+            : (
+              <div
+                aria-hidden="true"
+                className={`notification-item notification-item--${type}`}
+                onClick={onClickNotify}
+              >
+                <div className="notification-item__icon">
+                  {icon}
+                </div>
+                {text}
+                {
+                  showProgress && (
+                    <div
+                      className="notification-item__progress"
+                      style={{
+                        width: `${progress}%`,
+                      }}
+                    />
+                  )
+                }
+              </div>
+            )
         }
       </div>
     </div>
   );
+};
+
+Notification.defaultProps = {
+  CustomComponent: null,
 };
 
 Notification.propTypes = {
@@ -137,6 +164,7 @@ Notification.propTypes = {
   type: PropTypes.string.isRequired,
   duration: PropTypes.number.isRequired,
   showProgress: PropTypes.bool.isRequired,
+  CustomComponent: PropTypes.instanceOf(Object),
 };
 
 export default memo(Notification);

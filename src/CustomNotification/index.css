@@ -1,0 +1,47 @@
+.custom-notification {
+  padding: 0 20px;
+  height: 50px;
+  
+  display: flex;
+  align-items: center;
+
+  color: #fff;
+  border-radius: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+
+.custom-notification--default {
+  background: hsla(0, 0%, 20%, 1);
+}
+
+.custom-notification--warning {
+  background: hsla(28, 91%, 54%, 1);
+}
+
+.custom-notification--success {
+  background: hsla(82, 56%, 51%, 1);
+}
+
+.custom-notification--error {
+  background: hsla(0, 79%, 63%, 1);
+}
+
+.custom-notification__button {
+  margin-left: 10px;
+  padding: 10px 20px;
+  border-radius: 5px;
+  color: #333;
+  background: #fff;
+  border: 1px solid #333;
+  outline: none;
+}
+
+.custom-notification__progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: slateblue;
+}
