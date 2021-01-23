@@ -9,8 +9,23 @@ function App() {
 
   const [value, setValue] = useState('');
 
-  const onClick = () => {
+  const onClickDefault = () => {
     notify(value);
+    setValue('');
+  };
+
+  const onClickSuccess = () => {
+    notify({ text: value, type: 'success' });
+    setValue('');
+  };
+
+  const onClickWarning = () => {
+    notify({ text: value, type: 'warning' });
+    setValue('');
+  };
+
+  const onClickError = () => {
+    notify({ text: value, type: 'error' });
     setValue('');
   };
 
@@ -19,9 +34,27 @@ function App() {
       <input type="text" onChange={({ target }) => setValue(target.value)} value={value} />
       <button
         type="button"
-        onClick={onClick}
+        onClick={onClickDefault}
       >
-        show notification
+        show default
+      </button>
+      <button
+        type="button"
+        onClick={onClickSuccess}
+      >
+        show success
+      </button>
+      <button
+        type="button"
+        onClick={onClickWarning}
+      >
+        show warning
+      </button>
+      <button
+        type="button"
+        onClick={onClickError}
+      >
+        show error
       </button>
     </div>
   );

@@ -1,0 +1,38 @@
+.notification-item {
+  margin: 10px 0 0 10px;
+  padding: 0 16px;
+
+  min-width: 150px;
+  min-height: 48px;
+
+  display: flex;
+  align-items: center;
+
+  border-radius: 5px;
+
+  font-size: 14px;
+  color: hsla(0, 0%, 100%, 1);
+
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.notification-item--default {
+  background: hsla(0, 0%, 20%, 1);
+}
+
+.notification-item--warning {
+  background: hsla(28, 91%, 54%, 1);
+}
+
+.notification-item--success {
+  background: hsla(82, 56%, 51%, 1);
+}
+
+.notification-item--error {
+  background: hsla(0, 79%, 63%, 1);
+}
+
+.notification-item__icon {
+  margin-right: 8px;
+}

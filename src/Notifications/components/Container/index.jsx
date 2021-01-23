@@ -26,6 +26,7 @@ const Container = () => {
             key={item.id}
             text={item.text}
             id={item.id}
+            type={item.type}
             onRemove={onRemove}
           />
         ))
